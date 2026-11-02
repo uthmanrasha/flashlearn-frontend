@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import FlashcardList from '@/components/FlashcardList.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>FlashLearn</h1>
+    <FlashcardList />
   </main>
 </template>
