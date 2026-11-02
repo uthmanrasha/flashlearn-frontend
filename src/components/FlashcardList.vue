@@ -1,25 +1,41 @@
 <script setup lang="ts">
-const flashcards = [
-  {
-    id: 1,
-    subject: 'Informatik',
-    question: 'Was ist Polymorphie?',
-    answer: 'Ein Konzept in der objektorientierten Programmierung.',
-    difficultyLevel: 'Hard',
-  },
-  {
-    id: 2,
-    subject: 'Biologie',
-    question: 'Was ist die Aufgabe der Mitochondrien?',
-    answer: 'Mitochondrien sind die Kraftwerke der Zelle.',
-    difficultyLevel: 'Medium',
-  },
-]
+import { onMounted, ref } from 'vue'
+
+type Flashcard = {
+  id: number
+  subject: string
+  question: string
+  answer: string
+  difficultyLevel: string
+}
+
+const flashcards = ref<Flashcard[]>([])
+const loading = ref(true)
+const error = ref('')
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://flashcardbackend-ddkh.onrender.com/flashcards')
+
+    if (!response.ok) {
+      throw new Error('Fehler beim Laden')
+    }
+
+    flashcards.value = (await response.json()) as Flashcard[]
+  } catch {
+    error.value = 'Die Lernkarten konnten nicht geladen werden.'
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
   <section>
     <h2>Beispiel-Lernkarten</h2>
+
+    <p v-if="loading">Lernkarten werden geladen …</p>
+    <p v-else-if="error">{{ error }}</p>
 
     <article v-for="card in flashcards" :key="card.id" class="card">
       <h3>{{ card.question }}</h3>
