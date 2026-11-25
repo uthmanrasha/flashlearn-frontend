@@ -58,8 +58,8 @@ describe('FlashcardList', () => {
     await flushPromises()
 
     const inputs = wrapper.findAll('input')
-    await inputs[0].setValue('Biologie')
-    await inputs[1].setValue('Was machen Mitochondrien?')
+    await inputs[0]!.setValue('Biologie')
+    await inputs[1]!.setValue('Was machen Mitochondrien?')
     await wrapper.find('textarea').setValue('Sie sind die Kraftwerke der Zelle.')
     await wrapper.find('select').setValue('Medium')
     await wrapper.find('form').trigger('submit')
